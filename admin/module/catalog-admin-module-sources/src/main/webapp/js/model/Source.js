@@ -85,8 +85,8 @@ define(function (require) {
         sourceMap: {},
         addSource: function(configuration, enabled) {
             var source;
-            if(this.sourceMap[configuration.get("sourceId")]) {
-                source = this.sourceMap[configuration.get("sourceId")];
+            if(this.sourceMap[configuration.get("id")]) {
+                source = this.sourceMap[configuration.get("id")];
                 if(enabled) {
                     source.addConfiguration(configuration);
                 } else {
@@ -95,7 +95,7 @@ define(function (require) {
             } else {
                 source = new Source.Model();
 //                this.listenTo(source, 'removeSource', this.removeSource);
-                this.sourceMap[configuration.get("sourceId")] = source;
+                this.sourceMap[configuration.get("id")] = source;
                 if(enabled) {
                     source.setCurrentConfiguration(configuration);
                     source.addConfiguration(configuration);
@@ -108,7 +108,7 @@ define(function (require) {
         removeSource: function(source) {
             this.stopListening(source);
             this.remove(source);
-            delete this.sourceMap[source.get('currentConfiguration').get('sourceId')];
+            delete this.sourceMap[source.get('currentConfiguration').get('id')];
         }
     });
 
@@ -125,16 +125,18 @@ define(function (require) {
             var resModel = this;
             if(this.model.get("value")) {
                 this.model.get("value").each(function(service) {
-                    if(service.get("configurations") && service.get("configurations").length > 0) {
+                    if(!_.isEmpty(service.get("configurations"))) {
                         service.get("configurations").each(function(configuration) {
-                            if(configuration.get("sourceId")) {
+                            if(configuration.get("id")) {
+                            	console.log('adding ' + configuration.get("id"));
                                 resModel.get("collection").addSource(configuration, true);
                             }
                         });
                     }
-                    if(service.get("disabledConfigurations") && service.get("disabledConfigurations").length > 0) {
+                    if(!_.isEmpty(service.get("disabledConfigurations"))) {
                         service.get("disabledConfigurations").each(function(configuration) {
-                            if(configuration.get("sourceId")) {
+                        	console.log(configuration)
+                        	if(configuration.get("id")) {
                                 resModel.get("collection").addSource(configuration, false);
                             }
                         });

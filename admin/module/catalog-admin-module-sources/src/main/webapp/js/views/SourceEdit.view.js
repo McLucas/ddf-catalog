@@ -21,7 +21,7 @@ define(function (require) {
         _ = require('underscore'),
         ich = require('icanhaz');
 
-    ich.addTemplate('sourceEdit', require('text!templates/editSource.handlebars'));
+    ich.addTemplate('sourceEdit', require('text!/sources/templates/editSource.handlebars'));
     //these templates are part of the admin ui and we expect them to be there
     if(!ich.optionListType) {
         ich.addTemplate('optionListType', require('text!templates/optionListType.handlebars'));

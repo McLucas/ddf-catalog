@@ -23,7 +23,9 @@ public class SourcesPlugin extends AbstractApplicationConfigurationPlugin {
 	 */
 	public SourcesPlugin() {
 		this.displayName = "Sources";
-        this.javascriptLocation = "/applications/js/view/plugins/details/Plugin.view.js";
-		this.order = 0;
+//        this.javascriptLocation = "/applications/js/view/plugins/details/Plugin.view.js";
+		this.iframeLocation = "/sources/index.html";
+		this.addApplicationAssociations("catalog-app");
+		this.order = 4;
 	}
 }

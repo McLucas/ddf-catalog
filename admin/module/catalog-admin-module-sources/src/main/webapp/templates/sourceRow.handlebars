@@ -11,16 +11,33 @@
  *
  **/
  --}}
+<!--
+<td colspan="2">
+    <a href='#{{uuid}}service' class='newLink' data-toggle="modal">
+        {{name}}
+    </a>
+    <hr class="service-divider"/>
+    <div id="configurationRegion"></div>
+    <div class="service-modal-container">
+        <div id="{{uuid}}service" class="service-modal modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+        </div>
+    </div>
+</td>
 <td>
-    <a href='#{{id}}' class='editLink' data-toggle="modal">
-        {{#if sourceId}}
-            {{sourceId}}
+
+</td>
+-->
+
+
+<td>
+    <a href='#{{id}}' class='newLink' data-toggle="modal">
+        {{#if properties.shortname}}
+            {{properties.shortname}}
         {{else}}
-            {{#if properties.shortname}}
-                {{properties.shortname}}
-            {{else}}
-                {{id}}
-            {{/if}}
+	        {{#if id}}
+	            {{id}}
+	        {{/if}}
         {{/if}}
     </a>
     <div class="modal-container">
@@ -38,8 +55,9 @@
     {{/if}}
 
 </td>
-<td>
+<td colspan="2">
     {{#if configuration}}
         <a href='#' class='removeLink icon-remove'></a>
     {{/if}}
+    <a href='#' class='editLink fa fa-pencil'></a>
 </td>
