@@ -73,15 +73,28 @@ module.exports = function (grunt) {
                 files :['src/main/webapp/css/*.css'],
                 tasks : ['cssmin']
             }
-        }
+        },
+        express: {
+            options: {
+                port: 8282,
+                hostname: '*'
+            },
+            
+            server: {
+                options: {
+                    server: './server.js'
+                }
+            }
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-express');
 
-    var buildTasks = ['clean', 'cssmin', 'jshint'];
+    var buildTasks = ['clean', 'cssmin', 'express'];
 
     grunt.registerTask('build', buildTasks);
     grunt.registerTask('default', ['build', 'watch']);
