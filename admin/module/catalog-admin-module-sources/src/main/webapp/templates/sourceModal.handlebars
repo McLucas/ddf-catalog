@@ -15,12 +15,20 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">{{currentConfiguration.attributes.id}}</h4>
+            <h4 class="modal-title">
+                {{#if currentConfiguration.attributes.id}}
+                    {{currentConfiguration.attributes.id}}
+                {{else}}
+                    Add New Source
+                {{/if}}
+            </h4>
         </div>
         <div class="modal-body">
             <form class="form-horizontal add-federated-source">
                 <fieldset>
-                    <label>Source ID: </label><span> {{currentConfiguration.attributes.id}}</span>
+                    {{#if currentConfiguration.attributes.id}}
+                        <label>Source ID: </label><span> {{currentConfiguration.attributes.id}}</span>
+                    {{/if}}
                     <div class="control-group">
                         <label class="control-label">Source Type</label>
                         <div class="controls">
@@ -29,7 +37,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="data-section">
+                    <div class="modal-details">
 
                     </div>
                 </fieldset>

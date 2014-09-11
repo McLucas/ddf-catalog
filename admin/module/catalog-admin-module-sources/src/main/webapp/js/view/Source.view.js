@@ -19,6 +19,7 @@ define(function (require) {
     var ich = require('icanhaz'),
         Marionette = require('marionette'),
         SourceEdit = require('js/view/SourceEdit.view.js'),
+        ModalSource = require('js/view/ModalSource.view.js'),
         Service = require('js/model/Service.js');
 
     var SourceView = {};
@@ -66,7 +67,8 @@ define(function (require) {
             'click .addSourceLink' : 'addSource'
         },
         regions: {
-            collectionRegion: '#sourcesRegion'
+            collectionRegion: '#sourcesRegion',
+            sourcesModal: '#sources-modal'
         },
         onRender: function() {
             this.collectionRegion.show(new SourceView.SourceTable({ collection: this.model.get("collection") }));
@@ -75,7 +77,23 @@ define(function (require) {
             this.model.fetch();
         },
         addSource: function() {
+            var model = this.model;
+            if(model) {
+                var configs = Service.ConfigurationList;
+                var configuration = new Service.Configuration();
+                model.get('collection').each(function(model) { 
+                    console.log(model.get('currentConfiguration').get('name')); 
+                });
 
+                this.sourcesModal.show(new ModalSource.View(
+                    {
+                        model: this.model, 
+                        id: this.model.get('id'),
+                        configurations: model.get('currentConfiguration')
+                    })
+                );
+                this.sourcesModal.currentView.$el.modal()
+            }
         }
     });
 
