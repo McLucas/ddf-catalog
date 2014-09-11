@@ -94,9 +94,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express');
 
-    var buildTasks = ['clean', 'cssmin', 'express'];
+    var buildTasks = ['clean', 'cssmin'];
 
     grunt.registerTask('build', buildTasks);
-    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('default', ['build','express', 'watch']);
 
 };

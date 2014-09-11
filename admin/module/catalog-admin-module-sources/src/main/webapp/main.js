@@ -24,9 +24,7 @@
             'js/application',
             '../admin/js/HandlebarsHelpers',
             'modelbinder',
-            'bootstrap',
-            '../admin/templateConfig'
-
+            'bootstrap'
         ], function ($, Backbone, Marionette, ich, Application) {
 
         	

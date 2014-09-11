@@ -16,7 +16,7 @@
 define(function (require) {
 
     var Backbone = require('backbone'),
-        Service = require('/sources/js/model/Service.js');
+        Service = require('js/model/Service.js');
 
     require('backbonerelational');
 
@@ -94,7 +94,6 @@ define(function (require) {
                 }
             } else {
                 source = new Source.Model();
-//                this.listenTo(source, 'removeSource', this.removeSource);
                 this.sourceMap[configuration.get("id")] = source;
                 if(enabled) {
                     source.setCurrentConfiguration(configuration);
@@ -109,6 +108,10 @@ define(function (require) {
             this.stopListening(source);
             this.remove(source);
             delete this.sourceMap[source.get('currentConfiguration').get('id')];
+        },
+        comparator: function(model){
+            var id = model.get('currentConfiguration').id.replace('_disabled','');  // scrub the label of the _disable
+            return id;
         }
     });
 
@@ -127,17 +130,8 @@ define(function (require) {
                 this.model.get("value").each(function(service) {
                     if(!_.isEmpty(service.get("configurations"))) {
                         service.get("configurations").each(function(configuration) {
-                            if(configuration.get("id")) {
-                            	console.log('adding ' + configuration.get("id"));
+                            if(configuration.get('fpid') && configuration.get('id') && configuration.get('fpid').indexOf('Source') !== -1){
                                 resModel.get("collection").addSource(configuration, true);
-                            }
-                        });
-                    }
-                    if(!_.isEmpty(service.get("disabledConfigurations"))) {
-                        service.get("disabledConfigurations").each(function(configuration) {
-                        	console.log(configuration)
-                        	if(configuration.get("id")) {
-                                resModel.get("collection").addSource(configuration, false);
                             }
                         });
                     }

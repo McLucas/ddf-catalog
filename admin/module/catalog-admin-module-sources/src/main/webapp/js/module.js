@@ -23,7 +23,7 @@ define(function(require) {
 
     Application.App.module('Sources', function(SourceModule, App, Backbone, Marionette)  {
 
-        var Service = require('/sources/js/model/Service.js');
+        var Service = require('js/model/Service.js');
 
         var serviceModel = new Service.Response();
         serviceModel.fetch();

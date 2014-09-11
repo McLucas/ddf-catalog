@@ -78,6 +78,63 @@ define(function (require) {
             });
         },
 
+        makeEnableCall: function(){
+            var model = this;
+            var deferred = $.Deferred();
+            var pid = model.getServicePid();
+            var url = [model.configUrl, "enableConfiguration", pid].join("/");
+            if(pid){
+                $.ajax({
+                    url: url,
+                    dataType: 'json'
+                }).then(function(respJson){
+                        // masashe some data to match the new backend pid.
+                        model.trigger('enabled');
+                        deferred.resolve();
+                    }).fail(function(){
+                        deffered.reject('Could not enable configuratoin ' + pid);
+                    });
+            } else {
+                deferred.fail("Cannot enable since this model has no pid.");
+            }
+
+            return deferred;
+        },
+
+        makeDisableCall: function(){
+            var model = this;
+            var deferred = $.Deferred();
+            var pid = model.getServicePid();
+            var url = [model.configUrl, "disableConfiguration", pid].join("/");
+            if(pid){
+                $.ajax({
+                    url: url,
+                    dataType: 'json'
+                }).then(function(respJson){
+                        model.trigger('disabled');
+                        deferred.resolve();
+                    }).fail(function(){
+                        deffered.reject(new Error('Could not disable configuratoin ' + pid));
+                    });
+            } else {
+                deferred.reject(new Error("Cannot enable since this model has no pid."));
+            }
+
+            return deferred;
+        },
+
+        getServicePid: function(){
+            var model = this;
+            if(model.get('properties') && model.get('properties').get("service.pid")){
+                var pid = model.get('properties').get("service.pid");
+                if(pid){
+                    return pid;
+                }
+            }
+            return null;
+        },
+
+
         /**
          * When a model calls save the sync is called in Backbone.  I override it because this isn't a typical backbone
          * object
@@ -147,7 +204,10 @@ define(function (require) {
     });
 
     Service.ConfigurationList = Backbone.Collection.extend({
-        model: Service.Configuration
+        model: Service.Configuration,
+        comparator: function(model){
+            return model.get('id');
+        }
     });
 
     Service.Model = Backbone.RelationalModel.extend({
